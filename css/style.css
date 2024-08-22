@@ -1,0 +1,137 @@
+/* Geral */
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../img/Boa_noite.png"); /*imagem aleatória, pode mudar se quiser*/
+    background-size: cover;
+    background-position: center;
+}
+
+/* Botões */
+button {
+    background-color: #fdfdfd;
+    color: #102f5e;
+    border: 2px solid #102f5e;
+    padding: .3rem .6rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .4s;
+}
+
+button:hover {
+    background-color: #102f5e;
+    color: #fdfdfd;
+}
+
+button:hover i {
+    color: #fdfdfd;
+}
+
+button i {
+    color: #102f5e;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+input, 
+select {
+    padding: .25rem;
+}
+
+.hide {
+    display: none;
+}
+
+/* To-do Header */
+.todo-container {
+    max-width: 450px;
+    margin: 3rem auto;
+    background-color: #fdfdfd;
+    padding: 1.5rem;
+    border-radius: 15px;
+}
+
+.todo-container header {
+    text-align: center;
+    padding: 0 1rem 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+/* To-do form */
+#todo-form{
+    padding: 20px;        
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+#edit-form {
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    position: relative;
+}
+
+.edit-form-mid{
+    display: flex;
+    flex-direction: row;
+}
+
+
+#todo-form p,
+#edit-form p {
+    margin-bottom: .5rem;
+    font-weight: bold;
+}
+
+.form-control {
+    display: flex;
+}
+
+.form-control input {
+    margin-right: .9rem;
+}
+
+#cancel-edit-btn {
+    margin-left: .9rem;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pesquisa{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+#todo-list{
+    margin: 20px;
+}
+
+.todo{
+    display: flex;
+    margin: 7px;
+}
+
+.buttons {
+    display: flex;
+    gap: 9px;
+    margin-left: 6px;
+}
+
+.todo-bottom{
+    padding: 16px;
+    margin-top: 15px;
+}
