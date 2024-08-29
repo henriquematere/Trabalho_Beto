@@ -55,7 +55,6 @@ function markDone(index) {
     tasks[index].done = !tasks[index].done;
     localStorage.setItem("tasks", JSON.stringify(tasks));
     
-    // Chama displayTasks para atualizar a UI
     displayTasks();
 }
 
