@@ -56,7 +56,7 @@ select {
 
 /* To-do Header */
 .todo-container {
-    width: 45%;
+    width: 40%;
     margin: 3rem auto;
     background-color: #fdfdfd;
     padding: 1.5rem;
@@ -72,8 +72,6 @@ select {
 /* To-do form */
 #todo-form{
     padding: 20px;
-    /* border-bottom: 1px solid #ccc; */
-    
 }
 
 .todo-form-categoria{
@@ -188,11 +186,9 @@ p {
     margin-left: .4rem;
 }
 
-.done {
-    background-color: #4cc414;
-}
-.done h3 {
-    color: #fff;
+.done h5,
+.done p {
+    color: #000;
     text-decoration: line-through;
     font-style: italic;
 }
