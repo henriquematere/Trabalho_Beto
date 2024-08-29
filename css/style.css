@@ -7,16 +7,20 @@
 }
 
 body {
-    background-image: url("../img/Boa_noite.png"); /*imagem aleatória, pode mudar se quiser*/
+    background-image: url("../img/background.jpg"); /*imagem aleatória, pode mudar se quiser*/
+    background-position:center;
     background-size: cover;
-    background-position: center;
+}
+
+html {
+    height: 100vh;
 }
 
 /* Botões */
 button {
     background-color: #fdfdfd;
     color: #102f5e;
-    border: 2px solid #102f5e;
+    border: 3px solid #106cfc;
     padding: .3rem .6rem;
     font-size: 1rem;
     cursor: pointer;
@@ -27,7 +31,7 @@ button {
 }
 
 button:hover {
-    background-color: #102f5e;
+    background-color: #106cfc;
     color: #fdfdfd;
 }
 
@@ -52,7 +56,7 @@ select {
 
 /* To-do Header */
 .todo-container {
-    max-width: 450px;
+    width: 40%;
     margin: 3rem auto;
     background-color: #fdfdfd;
     padding: 1.5rem;
@@ -67,18 +71,44 @@ select {
 
 /* To-do form */
 #todo-form{
-    padding: 20px;        
+    padding: 20px;
+}
+
+.todo-form-categoria{
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.row{
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    position: relative;
 }
+
+ .todo-form-tarefa{
+    margin-bottom: 20px;
+    gap: 15px;
+} 
+
+.col-md-10{
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+
 #edit-form {
     padding: 1rem;
     border-bottom: 1px solid #ccc;
+}
+
+.edit-form-input {
     display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+#edit-form:first-child {
     flex-direction: column;
-    align-items: center; 
-    position: relative;
 }
 
 .edit-form-mid{
@@ -86,28 +116,41 @@ select {
     flex-direction: row;
 }
 
-
-#todo-form p,
-#edit-form p {
-    margin-bottom: .5rem;
+p {
+    margin-top: .5rem;
     font-weight: bold;
 }
 
 .form-control {
     display: flex;
+    width: 1000px;
 }
 
 .form-control input {
-    margin-right: .9rem;
+    margin-right: .3rem;
 }
 
 #cancel-edit-btn {
-    margin-left: .9rem;
+    margin-left: 1rem;
 }
 
+/* Toolbar */
 .toolbar {
     display: flex;
     justify-content: space-around;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+}
+
+.toolbar form{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10px;
+}
+
+.toolbar h4 {
+    padding-top: 10px;
 }
 
 .pesquisa{
@@ -116,22 +159,49 @@ select {
     gap: 3px;
 }
 
-#todo-list{
-    margin: 20px;
+#filter {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
+    padding-left: 10px;
 }
 
+/* To-do list */
 .todo{
     display: flex;
-    margin: 7px;
+    justify-content: space-around;
+    align-items: center;
+    padding: .5rem;
+    border-bottom: 1px solid #ddd;
+    transition: .3s;
 }
 
-.buttons {
+.todo h3 {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.todo button {
+    margin-left: .4rem;
+}
+
+.done h5,
+.done p {
+    color: #000;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.to-do-btn {
     display: flex;
-    gap: 9px;
-    margin-left: 6px;
+    justify-content: space-evenly;
 }
 
-.todo-bottom{
-    padding: 16px;
-    margin-top: 15px;
+#todo-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    place-items: center;
 }
