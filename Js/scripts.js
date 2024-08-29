@@ -1,118 +1,137 @@
-// Seleção de elementos
+// Elementos
 const todoForm = document.querySelector("#todo-form");
-const todoInput = document.querySelector("#todo-input");
+const todoCat = document.querySelector("#todo-categories");
+const todoTask = document.querySelector("#todo-task");
 const todoList = document.querySelector("#todo-list");
-const editForm = document.querySelector("#edit-form");
-const editInput = document.querySelector("#edit-input");
-const cancelEditBtn = document.querySelector("#cancel-edit-btn");
+const searchInput = document.querySelector("#search-input");
+const eraseBtn = document.querySelector("#erase-button");
+const filterBtn = document.querySelector("#filter-select");
 
-let oldInputValue; // Variável para armazenar o valor antigo da tarefa durante a edição
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// Funções
-const saveTodo = (text) => {
-    // Criação de elementos
-    const todo = document.createElement("div"); // Cria um novo div para a tarefa
-    todo.classList.add("todo"); // Adiciona a classe "todo" ao div
+// Gerar tarefas
+function displayTasks() {
+    todoList.innerHTML = "";
 
-    const todoTitle = document.createElement("h3"); // Cria um elemento h3 para o título da tarefa
-    todoTitle.innerText = text; // Define o texto do título da tarefa
-    todo.appendChild(todoTitle); // Adiciona o título ao div da tarefa
+    tasks.forEach((task, index) => {
+        const todo = document.createElement("div");
+        todo.classList.add("todo");
+        todo.classList.toggle('done', task.done);
 
-    const doneBtn = document.createElement("button"); // Cria um botão para marcar a tarefa como concluída
-    doneBtn.classList.add("finish-todo"); // Adiciona a classe "finish-todo" ao botão
-    doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'; // Define o ícone do botão
-    todo.appendChild(doneBtn); // Adiciona o botão ao div da tarefa
+        todo.innerHTML = `
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">${task.category}</h5>
+                <p class="card-text">${task.task}</p>
+                    <button type="button" class="btn btn-success" onclick="markDone(${index})"><i class="fa-solid fa-check"></i></button>
+                    <button type="button" class="btn btn-warning" onclick="editTask(${index})"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger" onclick="deleteTask(${index})"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+        `;
 
-    const editBtn = document.createElement("button"); // Cria um botão para editar a tarefa
-    editBtn.classList.add("edit-todo"); // Adiciona a classe "edit-todo" ao botão
-    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Define o ícone do botão
-    todo.appendChild(editBtn); // Adiciona o botão ao div da tarefa
-
-    const deleteBtn = document.createElement("button"); // Cria um botão para remover a tarefa
-    deleteBtn.classList.add("remove-todo"); // Adiciona a classe "remove-todo" ao botão
-    deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'; // Define o ícone do botão
-    todo.appendChild(deleteBtn); // Adiciona o botão ao div da tarefa
-    
-    // Adicionando os itens na lista
-    todoList.appendChild(todo); // Adiciona a tarefa completa (div) à lista de tarefas
-
-    // Limpando a área de criação
-    todoInput.value = ""; // Limpa o campo de entrada de nova tarefa
-    todoInput.focus(); // Coloca o foco de volta no campo de entrada para facilitar a adição de novas tarefas
-};  
-
-const toggleForms = () => {
-    editForm.classList.toggle("hide"); // Alterna a visibilidade do formulário de edição
-    todoForm.classList.toggle("hide"); // Alterna a visibilidade do formulário de adição
-    todoList.classList.toggle("hide"); // Alterna a visibilidade da lista de tarefas
-};
-
-const updateTodo = (text) => {
-    const todos = document.querySelectorAll(".todo"); // Seleciona todas as tarefas existentes
-
-    todos.forEach((todo) => {
-        let todoTitle = todo.querySelector("h3"); // Seleciona o título da tarefa
-
-        if(todoTitle.innerText === oldInputValue) {
-            todoTitle.innerText = text; // Atualiza o título da tarefa se ele corresponder ao valor antigo
-        }
+        todoList.appendChild(todo);
     });
-};
+}
 
-// Eventos
-    // Evento de "enviar" para o botão "+"
-todoForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do envio do formulário
+// Adicionando tarefa
+function addTodo() {
+    const categoryValue = todoCat.value.trim();
+    const taskValue = todoTask.value.trim();
 
-    const inputValue = todoInput.value; // Obtém o valor do campo de entrada
-
-    if(inputValue) {
-        saveTodo(inputValue); // Salva a nova tarefa se houver um valor
+    if (categoryValue && taskValue) {
+        const newTask = { category: categoryValue, task: taskValue, done: false };
+        tasks.push(newTask);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        displayTasks();
+        todoCat.value = "";
+        todoTask.value = "";
     }
-});
+}
 
-document.addEventListener("click", (e) => {
-    // Adicionando eventos nos botões
-    const targetEl = e.target; // Obtém o elemento que foi clicado
-    const parentEl = targetEl.closest("div"); // Obtém o elemento pai mais próximo que é um div
-    let todoTitle;
-    
-    if(parentEl && parentEl.querySelector("h3")) {
-        todoTitle = parentEl.querySelector("h3").innerText; // Obtém o título da tarefa
+// Marcando como feito
+function markDone(index) {
+    tasks[index].done = !tasks[index].done;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayTasks();
+}
+
+// Editar tarefa
+function editTask(index) {
+    const newTask = prompt("Edite a sua tarefa:", tasks[index].task);
+    if (newTask !== null) {
+        tasks[index].task = newTask;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        displayTasks();
     }
+}
 
-    // Concluir tarefa
-    if(targetEl.classList.contains("finish-todo")) {
-        parentEl.classList.toggle("done"); // Marca ou desmarca a tarefa como concluída
-    }
+// Deletando tarefa
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayTasks();
+}
 
-    // Remover tarefa
-    if(targetEl.classList.contains("remove-todo")) {
-        parentEl.remove(); // Remove a tarefa da lista
-    }
+// Evento de "enviar"
+if (todoForm) {
+    todoForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        addTodo();
+    });
+}
 
-    // Editar tarefa
-    if(targetEl.classList.contains("edit-todo")) {
-        toggleForms(); // Alterna os formulários
+// Buscar de tarefas
+if (searchInput) {
+    searchInput.addEventListener("keyup", (e) => {
+        const search = e.target.value.toLowerCase();
 
-        editInput.value = todoTitle; // Preenche o campo de edição com o título da tarefa
-        oldInputValue = todoTitle; // Armazena o valor antigo do título
-    }
-});
+        document.querySelectorAll(".card").forEach((card) => {
+            const title = card.querySelector(".card-title").innerText.toLowerCase();
+            const text = card.querySelector(".card-text").innerText.toLowerCase();
 
-cancelEditBtn.addEventListener("click", (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
+            if (title.includes(search) || text.includes(search)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+}
 
-    toggleForms(); // Alterna os formulários sem fazer mudanças
-});
+// Botão de apagar texto
+if (eraseBtn) {
+    eraseBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        searchInput.value = "";
+        searchInput.dispatchEvent(new Event("keyup"));
+    });
+}
 
-editForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do envio do formulário
+// Filtros
+if (filterBtn) {
+    filterBtn.addEventListener("change", (e) => {
+        const filterValue = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll(".card");
 
-    const editInputValue = editInput.value; // Obtém o valor do campo de edição
+        cards.forEach((card, index) => {
+            const isDone = tasks[index].done;
+            const cardText = card.querySelector(".card-text").innerText.toLowerCase();
 
-    if(editInputValue) {
-        updateTodo(editInputValue); // Atualiza a tarefa se houver um valor
-    }
-    toggleForms(); // Alterna os formulários após a edição
-});
+            if (filterValue === "all" ||
+                (filterValue === "done" && isDone) ||
+                (filterValue === "todo" && !isDone)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+}
+
+// Carregar tarefas ao inicializar a página
+document.addEventListener("DOMContentLoaded", loadTodos);
+
+function loadTodos() {
+    displayTasks();
+}
